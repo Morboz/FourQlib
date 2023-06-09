@@ -14,7 +14,12 @@
 #include "FourQ_params.h"
 #include "../random/random.h"
 #include "../sha512/sha512.h"
+
+#ifdef __APPLE__
+#include <malloc/malloc.h>
+#else
 #include <malloc.h>
+#endif
 #include <string.h>
 
 
