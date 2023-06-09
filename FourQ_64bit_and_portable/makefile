@@ -1,6 +1,7 @@
 ####  Makefile for compilation using GNU GCC or clang  ####
 
 OPT=-O3     # Optimization option by default
+OUT_FILE_NAME = libFourQ.a
 
 CC=gcc
 ifeq "$(CC)" "gcc"
@@ -49,7 +50,7 @@ endif
 
 else ifeq "$(ARCH)" "ARM64"
     ARCHITECTURE=_ARM64_
-    ARM_SETTING=-lrt
+    # ARM_SETTING=-lrt
 ifeq "$(GENERIC)" "TRUE"
     USE_GENERIC=-D _GENERIC_
 endif
@@ -73,11 +74,12 @@ ifeq "$(ARCH)" "x86"
     ARCHITECTURE=_X86_
 else ifeq "$(ARCH)" "ARM"
     ARCHITECTURE=_ARM_
-    ARM_SETTING=-lrt
+    # ARM_SETTING=-lrt
 endif
 endif
 
-ADDITIONAL_SETTINGS=-fwrapv -fomit-frame-pointer -march=native
+# ADDITIONAL_SETTINGS=-fwrapv -fomit-frame-pointer -march=native
+ADDITIONAL_SETTINGS=-fwrapv -fomit-frame-pointer
 ifeq "$(EXTENDED_SET)" "FALSE"
     ADDITIONAL_SETTINGS=
 endif
@@ -180,6 +182,16 @@ ecc_tests.o: tests/ecc_tests.c
 
 fp_tests.o: tests/fp_tests.c
 	$(CC) $(CFLAGS) tests/fp_tests.c
+
+# Default target
+.PHONY: all
+all: $(OUT_FILE_NAME)
+
+# build static library 
+$(OUT_FILE_NAME): $(OBJECTS)
+	ar rcs libFourQ.a $(OBJECTS)
+	ranlib $@
+
 
 .PHONY: clean
 
