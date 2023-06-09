@@ -16,7 +16,7 @@
 #include "../sha512/sha512.h"
 
 #ifdef __APPLE__
-#include <malloc/malloc.h>
+#include <stdlib.h>
 #else
 #include <malloc.h>
 #endif
